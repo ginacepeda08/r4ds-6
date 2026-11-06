@@ -36,9 +36,9 @@ activity_avg <- dbplyr_act |>
     by = "activity_code"
   ) |>
   group_by(tucaseid, sex, major_name) |>
-  summarize(person_minutes = sum(duration_min), .groups = "drop") |>
+  summarize(person_minutes = sum(duration_min, na.rm = TRUE), .groups = "drop") |>
   group_by(sex, major_name) |>
-  summarize(mean_minutes = mean(person_minutes), .groups = "drop") |>
+  summarize(mean_minutes = mean(person_minutes, na.rm = TRUE), .groups = "drop") |>
   collect()
 ```
 
@@ -67,8 +67,6 @@ hourly_avg <- dbplyr_act |>
   group_by(sex, hour, major_name) |>
   summarize(avg_min = mean(duration_min, na.rm = TRUE), .groups = "drop") |>
   collect()
-
-hourly_avg |> print(n = Inf)
 ```
 
 ```{r}
